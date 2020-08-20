@@ -9,16 +9,18 @@ contract FlipOut is Ownable, Destroyable {
         uint age;
         bool legalAge;
         uint balance;
-        uint betOnHeads;
-        uint betOnTails;
+        uint betAmount;
+        bool betOnHeads;
+        bool betOnTails;
     }
 
     uint public contractBalance;
-    uint private betAmount;
 
     event ageEntered(uint age, bool legalAge);
-    event betPlaced(uint betAmountAdded, uint totalBetAmount, string choice);
-    event betCancelled(uint betAmountReturned, address toAccount);
+    event depositMade(uint amountDeposited, address fromAccount);
+    event betPlaced(uint amountBet, uint currentBettingBalance);
+    event betCancelled(uint betAmountCancelled, uint bettingBalance);
+    event choiceMade(string choice);
     event coinFlipResult(string result);
     event betResult(string message, uint amountPaid, string paidTo);
     event fundsWithdrawn(uint amountWithdrawn, address toAccount);
@@ -31,7 +33,7 @@ contract FlipOut is Ownable, Destroyable {
         _;
     }
      modifier contractDeposit(uint minimumAmount){
-        require (msg.value >= minimumAmount, "Minimum deposit to contract is at least 20 Finney (which will cover at least 2 losing max bets)");
+        require (msg.value >= minimumAmount, "Minimum deposit to contract is at least 20 Finney (which will cover at least 2 max bets)");
         _;
     }
 
@@ -39,7 +41,6 @@ contract FlipOut is Ownable, Destroyable {
 
 
     function enterYourAge(uint age) public {
-        require(age > 0, "You cannot be a negative number of years old, it is just not possible");
         require(punters[msg.sender].age == 0, "You have already entered your age");
 
         Punter memory newPunter;
@@ -47,22 +48,14 @@ contract FlipOut is Ownable, Destroyable {
         if (age >= 18) newPunter.legalAge = true;
         else newPunter.legalAge = false;
         newPunter.balance = punters[msg.sender].balance;
-        newPunter.betOnTails = 0;
-        newPunter.betOnHeads = 0;
+        newPunter.betAmount = 0;
+        newPunter.betOnTails = false;
+        newPunter.betOnHeads = false;
 
         insertPunter(newPunter);
         puntersAddresses.push(msg.sender);
 
         emit ageEntered(newPunter.age, newPunter.legalAge);
-    }
-
-    function insertPunter(Punter memory newPunter) private {
-        address punter = msg.sender;
-        punters[punter] = newPunter;
-    }
-
-    function getAge() public view returns(uint age, bool legalAge) {
-        return (punters[msg.sender].age, punters[msg.sender].legalAge);
     }
 
     function depositToContract() public payable onlyOwner contractDeposit(20 finney) {
@@ -75,141 +68,125 @@ contract FlipOut is Ownable, Destroyable {
         require(punters[msg.sender].age < 125, "It is highly improbable that you are 125 years or older and therefore we will not take the risk of allowing you to place the bet, thank you");
 
         punters[msg.sender].balance += msg.value;
+
+        emit depositMade(msg.value, msg.sender);
     }
 
      function bettingFunds()public view returns(uint){
         return punters[msg.sender].balance;
     }
 
-    function betOnHeads(uint amountToBet) public {
+    function chooseBetAmount (uint amountToBet) public {
         require(punters[msg.sender].balance >= 1 finney,"You must have some funds in your betting account to place a bet");
-        require(punters[msg.sender].betOnTails == 0 finney, "You have already placed a bet on Heads, if you want to change your bet, cancel the bet and start again");
-
+        require(punters[msg.sender].betAmount == 0, "You have already selected a bet amount, cancel your bet to start again");
         require(amountToBet >= 1, "The minimum bet amount is 1 (1 Finney)");
         require(amountToBet <= 10, "The maximum bet amount is 10 (10 Finney)");
 
-        if(amountToBet == 1) betAmount = 1 finney;
-        if(amountToBet == 2) betAmount = 2 finney;
-        if(amountToBet == 3) betAmount = 3 finney;
-        if(amountToBet == 4) betAmount = 4 finney;
-        if(amountToBet == 5) betAmount = 5 finney;
-        if(amountToBet == 6) betAmount = 6 finney;
-        if(amountToBet == 7) betAmount = 7 finney;
-        if(amountToBet == 8) betAmount = 8 finney;
-        if(amountToBet == 9) betAmount = 9 finney;
-        if(amountToBet == 10) betAmount = 10 finney;
+        uint bet;
+        if(amountToBet == 1) bet = 1 finney;
+        if(amountToBet == 2) bet = 2 finney;
+        if(amountToBet == 3) bet = 3 finney;
+        if(amountToBet == 4) bet = 4 finney;
+        if(amountToBet == 5) bet = 5 finney;
+        if(amountToBet == 6) bet = 6 finney;
+        if(amountToBet == 7) bet = 7 finney;
+        if(amountToBet == 8) bet = 8 finney;
+        if(amountToBet == 9) bet = 9 finney;
+        if(amountToBet == 10) bet = 10 finney;
 
-        punters[msg.sender].betOnHeads += betAmount;
+        require(contractBalance >= bet, "The contract doesn't currently have enough liquidity to cover a winning bet, pleae try again later");
 
-        require(contractBalance >= punters[msg.sender].betOnHeads, "The contract doesn't currently have enough liquidity to cover a winning bet, pleae try again later");
-        require(punters[msg.sender].betOnHeads <= 10 finney, "The total you can bet on a single flip of the coin is 10 (10 Finney)");
+        punters[msg.sender].betAmount += bet;
+        punters[msg.sender].balance -= bet;
 
-        punters[msg.sender].balance -= betAmount;
-        contractBalance += betAmount;
-
-        emit betPlaced(betAmount, punters[msg.sender].betOnHeads, "Heads");
+        emit betPlaced(punters[msg.sender].betAmount, punters[msg.sender].balance);
     }
 
-    function betOnTails(uint amountToBet) public {
-        require(punters[msg.sender].balance >= 1 finney,"You must have some funds in your betting account to place a bet");
-        require(punters[msg.sender].betOnHeads == 0 finney, "You have already placed a bet on Heads");
-        require(punters[msg.sender].betOnTails == 0 finney, "You have already placed a bet on Tails, if you want to change your bet, cancel the bet and start again");
-        require(amountToBet >= 1, "The minimum bet amount is 1 (1 Finney)");
-        require(amountToBet <= 10, "The maximum bet amount is 10 (10 Finney)");
+    function betOnHeads() public {
+        require(punters[msg.sender].betAmount >= 1 finney, "The minimum bet amount is 1 Finney");
+        require(punters[msg.sender].betAmount <= 10 finney, "The maximum bet amount is 10 Finney");
 
-        if(amountToBet == 1) betAmount = 1 finney;
-        if(amountToBet == 2) betAmount = 2 finney;
-        if(amountToBet == 3) betAmount = 3 finney;
-        if(amountToBet == 4) betAmount = 4 finney;
-        if(amountToBet == 5) betAmount = 5 finney;
-        if(amountToBet == 6) betAmount = 6 finney;
-        if(amountToBet == 7) betAmount = 7 finney;
-        if(amountToBet == 8) betAmount = 8 finney;
-        if(amountToBet == 9) betAmount = 9 finney;
-        if(amountToBet == 10) betAmount = 10 finney;
+        punters[msg.sender].betOnHeads = true;
+        punters[msg.sender].betOnTails = false;
 
-        punters[msg.sender].betOnTails += betAmount;
+        emit choiceMade("Heads");
+    }
 
-        require(contractBalance >= punters[msg.sender].betOnTails, "The contract doesn't currently have enough liquidity to cover a winning bet, pleae try again later");
-        require(punters[msg.sender].betOnTails <= 10 finney, "The total amount you can bet on a single flip of the coin is 10 Finney");
+    function betOnTails() public {
+        require(punters[msg.sender].betAmount >= 1 finney, "The minimum bet amount is 1 Finney");
+        require(punters[msg.sender].betAmount <= 10 finney, "The maximum bet amount is 10 Finney");
 
-        punters[msg.sender].balance -= betAmount;
-        contractBalance += betAmount;
+        punters[msg.sender].betOnHeads = false;
+        punters[msg.sender].betOnTails = true;
 
-        emit betPlaced(betAmount, punters[msg.sender].betOnTails, "Tails");
+        emit choiceMade("Tails");
     }
 
     function currentBetAmount() public view returns(uint currentBet) {
-        if(punters[msg.sender].betOnHeads > 0) {
-            currentBet = punters[msg.sender].betOnHeads;
-        }
-        else if(punters[msg.sender].betOnTails > 0) {
-            currentBet = punters[msg.sender].betOnTails;
-        } else {
-            currentBet = 0;
-        }
+        currentBet = punters[msg.sender].betAmount;
         return currentBet;
     }
 
-    function cancelBet() public {
-        if(punters[msg.sender].betOnHeads > 0) {
-            betAmount = punters[msg.sender].betOnHeads;
-            punters[msg.sender].betOnHeads = 0;
-        }
-        if(punters[msg.sender].betOnTails > 0) {
-            betAmount = punters[msg.sender].betOnTails;
-            punters[msg.sender].betOnTails = 0;
-        }
-        punters[msg.sender].balance += betAmount;
-        contractBalance -= betAmount;
+    function currentChoice()public view returns(string memory choice){
+        if (punters[msg.sender].betOnHeads == true) choice = "Heads";
+        else if (punters[msg.sender].betOnTails == true) choice = "Tails";
+        else choice = "No selection made";
+        return choice;
+    }
 
-        emit betCancelled(betAmount, msg.sender);
+    function cancelBet() public {
+        uint bet = punters[msg.sender].betAmount;
+        punters[msg.sender].balance += bet;
+        punters[msg.sender].betAmount = 0;
+
+        emit betCancelled(bet, punters[msg.sender].balance);
     }
 
     function flipCoin() public returns(string memory result){
-        require(
-            (punters[msg.sender].betOnHeads > 0 finney &&
-            punters[msg.sender].betOnHeads <= 10 finney &&
-            punters[msg.sender].betOnTails == 0 finney)
-        ||
-            (punters[msg.sender].betOnTails > 0 finney &&
-            punters[msg.sender].betOnTails <= 10 finney &&
-            punters[msg.sender].betOnHeads == 0 finney),
-        "You can must bet between 1 and 10 Finney on either Heads or Tails to flip the coin"
-        );
 
         uint flip = now % 2;
         string memory heads = "Heads";
         string memory tails = "Tails";
         if (flip == 1) result = heads;
         else result = tails;
+
         emit coinFlipResult(result);
 
-        if (punters[msg.sender].betOnHeads > 0 finney) {
-            betAmount = punters[msg.sender].betOnHeads;
-            punters[msg.sender].betOnHeads -= betAmount;
-            if(flip == 1) {
-                punters[msg.sender].balance += betAmount * 2;
-                contractBalance -= betAmount * 2;
-                emit betResult("Congratulations", betAmount * 2, "The bet placer");
-            } else {
-                emit betResult("Better luck next time", betAmount, "The House");
+        if (punters[msg.sender].betAmount > 0){
+            require(punters[msg.sender].betOnHeads == true || punters[msg.sender].betOnTails == true);
+
+            uint bet = punters[msg.sender].betAmount;
+            punters[msg.sender].betAmount = 0;
+
+            if (punters[msg.sender].betOnHeads == true) {
+                if(flip == 1) {
+                    uint payout = bet * 2;
+                    punters[msg.sender].balance += payout;
+                    contractBalance -= bet;
+                    emit betResult("Congratulations", payout, "The Player");
+                } else {
+                    contractBalance += bet;
+                    emit betResult("Better luck next time", bet, "The House");
+                }
             }
-        } else {
-            betAmount = punters[msg.sender].betOnTails;
-            punters[msg.sender].betOnTails -= betAmount;
-            if(flip == 0) {
-                punters[msg.sender].balance += betAmount * 2;
-                contractBalance -= betAmount * 2;
-                emit betResult("Congratulations", betAmount * 2, "The bet placer");
-            } else {
-                emit betResult("Better luck next time", betAmount, "The House");
+
+            if (punters[msg.sender].betOnTails == true) {
+                if(flip == 0) {
+                    uint payout = bet * 2;
+                    punters[msg.sender].balance +=payout;
+                    contractBalance -= bet;
+                    emit betResult("Congratulations", payout, "The Player");
+                } else {
+                    contractBalance += bet;
+                    emit betResult("Better luck next time", bet, "The House");
+                }
             }
         }
     }
 
     function withdrawBettingFunds() public {
         require(punters[msg.sender].balance > 0, "You do not currently have any funds for withdrawal");
+        cancelBet();
         uint toTransfer = punters[msg.sender].balance;
         punters[msg.sender].balance = 0;
         msg.sender.transfer(toTransfer);
@@ -223,5 +200,19 @@ contract FlipOut is Ownable, Destroyable {
         emit contractBalanceWithdrawn(toTransfer, owner);
     }
 
+    function insertPunter(Punter memory newPunter) private {
+        address punter = msg.sender;
+        punters[punter] = newPunter;
+    }
+
+    function getAge() public view returns(uint age, bool legalAge) {
+        age = punters[msg.sender].age;
+        legalAge = punters[msg.sender].legalAge;
+        return (age, legalAge);
+    }
+
+    function getContractBalance() public view returns(uint balance){
+        return contractBalance;
+    }
 
 }
