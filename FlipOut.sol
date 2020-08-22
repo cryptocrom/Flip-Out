@@ -227,3 +227,4 @@ contract FlipOut is Ownable, Destroyable {
     function getContractBalance() public view returns(uint balance){
         return contractBalance;
     }
+
