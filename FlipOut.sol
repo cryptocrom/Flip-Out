@@ -10,13 +10,14 @@ contract FlipOut is Ownable, Destroyable {
         bool legalAge;
         uint balance;
         uint betAmount;
-        bool betOnHeads;
-        bool betOnTails;
+        bool betHeads;
+        bool betTails;
     }
 
     uint public contractBalance;
 
-    event ageEntered(uint age, bool legalAge);
+    event ageEntered(uint age, bool legalAge, uint balance, uint betAmount, bool betHeads, bool betTails);
+    event contractDepositMade(uint amountDeposited, address fromAccount);
     event depositMade(uint amountDeposited, address fromAccount);
     event betPlaced(uint amountBet, uint currentBettingBalance);
     event betCancelled(uint betAmountCancelled, uint bettingBalance);
@@ -49,17 +50,19 @@ contract FlipOut is Ownable, Destroyable {
         else newPunter.legalAge = false;
         newPunter.balance = punters[msg.sender].balance;
         newPunter.betAmount = 0;
-        newPunter.betOnTails = false;
-        newPunter.betOnHeads = false;
+        newPunter.betHeads = false;
+        newPunter.betTails = false;
 
         insertPunter(newPunter);
         puntersAddresses.push(msg.sender);
 
-        emit ageEntered(newPunter.age, newPunter.legalAge);
+        emit ageEntered(newPunter.age, newPunter.legalAge, newPunter.balance, newPunter.betAmount, newPunter.betHeads, newPunter.betTails);
     }
 
     function depositToContract() public payable onlyOwner contractDeposit(20 finney) {
         contractBalance += msg.value;
+
+        emit contractDepositMade(msg.value, msg.sender);
     }
 
     function addBettingFunds() public payable betDeposit(1 finney) {
@@ -94,7 +97,7 @@ contract FlipOut is Ownable, Destroyable {
         if(amountToBet == 9) bet = 9 finney;
         if(amountToBet == 10) bet = 10 finney;
 
-        require(contractBalance >= bet, "The contract doesn't currently have enough liquidity to cover a winning bet, pleae try again later");
+        require(contractBalance >= bet, "The contract does not currently have enough liquidity to cover a winning bet, pleae try again later");
 
         punters[msg.sender].betAmount += bet;
         punters[msg.sender].balance -= bet;
@@ -103,23 +106,25 @@ contract FlipOut is Ownable, Destroyable {
     }
 
     function betOnHeads() public {
-        require(punters[msg.sender].betAmount >= 1 finney, "The minimum bet amount is 1 Finney");
-        require(punters[msg.sender].betAmount <= 10 finney, "The maximum bet amount is 10 Finney");
+        uint userBet = punters[msg.sender].betAmount;
 
-        punters[msg.sender].betOnHeads = true;
-        punters[msg.sender].betOnTails = false;
+        if (userBet >= 1 finney){
+            punters[msg.sender].betHeads = true;
+            punters[msg.sender].betTails = false;
+        }
 
         emit choiceMade("Heads");
     }
 
     function betOnTails() public {
-        require(punters[msg.sender].betAmount >= 1 finney, "The minimum bet amount is 1 Finney");
-        require(punters[msg.sender].betAmount <= 10 finney, "The maximum bet amount is 10 Finney");
+      uint userBet = punters[msg.sender].betAmount;
 
-        punters[msg.sender].betOnHeads = false;
-        punters[msg.sender].betOnTails = true;
+      if (userBet >= 1 finney){
+          punters[msg.sender].betHeads = false;
+          punters[msg.sender].betTails = true;
+      }
 
-        emit choiceMade("Tails");
+      emit choiceMade("Tails");
     }
 
     function currentBetAmount() public view returns(uint currentBet) {
@@ -128,8 +133,8 @@ contract FlipOut is Ownable, Destroyable {
     }
 
     function currentChoice()public view returns(string memory choice){
-        if (punters[msg.sender].betOnHeads == true) choice = "Heads";
-        else if (punters[msg.sender].betOnTails == true) choice = "Tails";
+        if (punters[msg.sender].betHeads == true) choice = "Heads";
+        else if (punters[msg.sender].betTails == true) choice = "Tails";
         else choice = "No selection made";
         return choice;
     }
@@ -138,6 +143,8 @@ contract FlipOut is Ownable, Destroyable {
         uint bet = punters[msg.sender].betAmount;
         punters[msg.sender].balance += bet;
         punters[msg.sender].betAmount = 0;
+        punters[msg.sender].betHeads = false;
+        punters[msg.sender].betTails = false;
 
         emit betCancelled(bet, punters[msg.sender].balance);
     }
@@ -153,12 +160,14 @@ contract FlipOut is Ownable, Destroyable {
         emit coinFlipResult(result);
 
         if (punters[msg.sender].betAmount > 0){
-            require(punters[msg.sender].betOnHeads == true || punters[msg.sender].betOnTails == true);
+            require(punters[msg.sender].betHeads == true || punters[msg.sender].betTails == true);
 
             uint bet = punters[msg.sender].betAmount;
             punters[msg.sender].betAmount = 0;
 
-            if (punters[msg.sender].betOnHeads == true) {
+            if (punters[msg.sender].betHeads == true) {
+                punters[msg.sender].betHeads = false;
+                punters[msg.sender].betTails = false;
                 if(flip == 1) {
                     uint payout = bet * 2;
                     punters[msg.sender].balance += payout;
@@ -170,7 +179,9 @@ contract FlipOut is Ownable, Destroyable {
                 }
             }
 
-            if (punters[msg.sender].betOnTails == true) {
+            if (punters[msg.sender].betTails == true) {
+                punters[msg.sender].betHeads = false;
+                punters[msg.sender].betTails = false;
                 if(flip == 0) {
                     uint payout = bet * 2;
                     punters[msg.sender].balance +=payout;
@@ -205,14 +216,14 @@ contract FlipOut is Ownable, Destroyable {
         punters[punter] = newPunter;
     }
 
-    function getAge() public view returns(uint age, bool legalAge) {
+    function getUserInfo() public view returns(uint age, bool legalAge, bool heads, bool tails) {
         age = punters[msg.sender].age;
         legalAge = punters[msg.sender].legalAge;
-        return (age, legalAge);
+        heads = punters[msg.sender].betHeads;
+        tails = punters[msg.sender].betTails;
+        return (age, legalAge, heads, tails);
     }
 
     function getContractBalance() public view returns(uint balance){
         return contractBalance;
     }
-
-}
