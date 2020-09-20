@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>blockPunt</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./web3.min.js"></script>
+    <script type="text/javascript" src="./bitPunt_abi.js"></script>
+    <script type="text/javascript" src="./mainPage.js"></script>
+    <link rel="stylesheet" href="./pageLayout.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <style>
+      body {background-color: black;}
+    </style>
+
+
+      <div id="main_page_header">
+        <div class="container main_header_div" id="main_page_only">
+          <h1 class="mainHeading">blockPunt</h1>
+        </div>
+      </div>
+
+
+
+<div class="grid-container top_section">
+
+      <div class="container main_top">
+        <div class="output-info-grid">
+          <label class="address_labels user" id="user_account_label">User Account:</label>
+          <span class="addresses" id="display_user_account"></span>
+        </div>
+        <div class="output-info-grid">
+          <label class="balance_labels user" id="bet_fund_label">Account balance:</label>
+          <span class="balances" id="display_betting_funds"></span>
+        </div>
+        <button type="button" id="update_button" class="btn btn-outline-warning update">Update Account</button>
+      </div>
+
+      <div class="container">
+        <p class="subHeading2">Please bet responsibly</p>
+        <div class="rules_btn">
+          <button type="button" id="goto_rules_page_button" class="btn btn-outline-warning">Rules and Information</button>
+        </div>
+      </div>
+
+      <div class="container main_top">
+        <div class="output-info-grid owner_top">
+          <label class="address_labels owner" id="contract_owner_link">The House:</label>
+          <span id="contract_owner_address" class="addresses"></span>
+        </div>
+        <div class="output-info-grid owner_top">
+          <label class="balance_labels owner" id="contract_label">House balance:</label>
+          <span class="balances" id="display_contract_balance"></span>
+        </div>
+        <button type="button" id="owner_page_button" class="btn btn-outline-warning">Owner Only</button>
+        <div class="owner_password_div">
+          <input type="password" id="owner_password" placeholder="Password">
+          <div>
+            <input type="submit" id="submit_password">
+            <input type="submit" id="cancel_password" name="Cancel" value="Cancel">
+          </div>
+        </div>
+      </div>
+</div>
+
+
+
+
+<!-- User deposit/withdrawal -->
+
+
+      <div class="container deposit_directions">
+        <span>Add and withdraw funds here:</span>
+        <div class="all_buttons user_deposit_funds" id="inner_deposit_container">
+          <div class="container">
+            <input type="number" class="input_boxes" id="deposit_amount" placeholder="Finney Amount">
+          </div>
+          <div class="container">
+            <button type="button" id="deposit_button" class="btn btn-outline-warning">Deposit Funds</button>
+          </div>
+          <div class="container">
+            <button type="button" id="withdraw_betting_funds_button" class="btn btn-outline-danger">Withdraw Balance</button>
+          </div>
+        </div>
+      </div>
+
+
+<!-- Games Buttons-->
+
+  <div class="directions bottom_section">
+    <span>Choose a game:</span>
+  </div>
+
+
+  <div class="grid-container">
+
+      <div class="container games">
+        <button type="button" id="flip_out_button" class="game_buttons">Flip Out</button>
+      </div>
+
+      <div class="container games">
+        <button type="button" id="roll_out_button" class="game_buttons">Roll Out</button>
+      </div>
+
+      <div class="container games">
+        <button type="button" id="draw_out_button" class="game_buttons">Draw Out</button>
+      </div>
+
+  </div>
+
+
+  </body>
+</html>
