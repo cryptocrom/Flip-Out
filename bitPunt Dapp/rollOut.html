@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Roll Out by blockPunt</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./web3.min.js"></script>
+    <script type="text/javascript" src="./bitPunt_abi.js"></script>
+    <script type="text/javascript" src="./rollOut.js"></script>
+    <link rel="stylesheet" href="./pageLayout.css">
+    <link rel="stylesheet" href="./games_styling.css">
+    <link rel="stylesheet" href="./rollOut_styling.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <style>
+      body {background-color: black;}
+    </style>
+
+    <!-- Header -->
+          <div id="main_page_header">
+            <div class="container main_header_div">
+              <h1 class="mainHeading">Roll Out</h1>
+              <h2 class="subHeading" id="sub_h">Brought to you by <strong>blockPunt</strong></h2>
+            </div>
+          </div>
+
+
+
+    <!-- Under header section -->
+
+      <div class="grid-container top_section">
+
+            <div class="container main_top">
+              <div class="output-info-grid">
+                <label class="address_labels user" id="user_account_label">User Account:</label>
+                <span class="addresses" id="display_user_account"></span>
+              </div>
+              <div class="output-info-grid">
+                <label class="balance_labels user" id="bet_fund_label">Account balance:</label>
+                <span class="balances" id="display_betting_funds"></span>
+              </div>
+              <button type="button" id="update_button" class="btn btn-outline-warning update">Update Account</button>
+            </div>
+
+            <div class="container">
+              <p class="subHeading2">Please bet responsibly</p>
+              <div class="rules_btn">
+                <button type="button" id="goto_rules_page_button" class="btn btn-outline-warning">Rules and Information</button>
+              </div>
+            </div>
+
+            <div class="container main_top">
+              <div class="output-info-grid">
+                <label class="address_labels owner" id="contract_owner_link">The House:</label>
+                <span id="contract_owner_address" class="addresses"></span>
+              </div>
+              <div class="output-info-grid">
+                <label class="balance_labels owner" id="contract_label">House balance:</label>
+                <span class="balances" id="display_contract_balance"></span>
+              </div>
+              <button type="button" id="owner_page_button" class="btn btn-outline-warning">Owner Only</button>
+              <div class="owner_password_div">
+                <input type="password" id="owner_password" placeholder="Password">
+                <div>
+                  <input type="submit" id="submit_password">
+                  <input type="submit" id="cancel_password" name="Cancel" value="Cancel">
+                </div>
+              </div>
+            </div>
+      </div>
+
+
+
+
+
+<div class="game_section">
+
+
+
+      <div class="container bet_amount_section">
+        <span class="centred_direction" id="choose_label">Choose amount to bet</span>
+        <div class="all_buttons centred">
+          <input type="number" class="input_boxes" id="bet_amount" placeholder="Finney Amount">
+          <button type="button" id="place_bet_button" class="btn btn-outline-warning">Place Bet</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="action_btns amount_display">
+          <label class="bet_amount_label" id="current_bet_amount">Current bet amount:</label>
+          <span class="show_bet_amount" id="display_bet_amount"></span>
+        </div>
+        <div class="action_btns cancel_section">
+          <button type="button" id="cancel_button" class="btn btn-danger">Cancel Bet</button>
+        </div>
+      </div>
+
+
+      <div class="container nmbr_slct choice_btns">
+        <span id="number_selection" class="centred_direction">Select a number</span>
+        <div class="all_buttons">
+          <button type="button" id="one_button" class="btn btn-outline-info number_buttons">1</button>
+          <button type="button" id="two_button" class="btn btn-outline-info number_buttons">2</button>
+          <button type="button" id="three_button" class="btn btn-outline-info number_buttons">3</button>
+          <button type="button" id="four_button" class="btn btn-outline-info number_buttons">4</button>
+          <button type="button" id="five_button" class="btn btn-outline-info number_buttons">5</button>
+          <button type="button" id="six_button" class="btn btn-outline-info number_buttons">6</button>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="all_buttons action_btns do_it_btns">
+            <button type="button" id="roll_it_button" class="btn btn-outline-primary bet_it">ROLL IT</button>
+        </div>
+      </div>
+
+
+
+      <div class="container message">
+        <div class="win_lose" id="win_or_lose_div">
+          <label id="roll_result"></label>
+          <label id="win_or_lose_message"></label>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="gif_box">
+          <img id="Dice_Roll_GIF" src="https://media.giphy.com/media/5xtDarpTZP1hgRgReLK/giphy.gif" alt="Dice Rolling/Breakdancing Gif">
+        </div>
+      </div>
+
+
+</div>
+
+
+
+
+
+<!-- Games Buttons-->
+
+    <div class="directions">
+      <span>Try a different game or head back to the main page:</span>
+    </div>
+
+    <div class="grid-container">
+
+        <div class="container games">
+          <button type="button" id="flip_out_btn" class="game_buttons">Flip Out</button>
+        </div>
+
+        <div class="container games">
+          <button type="button" id="back_to_main_button" class="game_buttons">Back to Main Page</button>
+        </div>
+
+        <div class="container games">
+          <button type="button" id="draw_out_btn" class="game_buttons">Draw Out</button>
+        </div>
+
+    </div>
+
+
+
+
+  </body>
+</html>
