@@ -1,4 +1,4 @@
-# bitPunt
+# blockPunt
 Coin Flip DApp Project
 
 August 2020
