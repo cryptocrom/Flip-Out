@@ -16,3 +16,10 @@ I have created extra games (a dice roll game and high card draw game also).
 Each page has uniformity and style consistency and interlinks with other pages and the owner page link is protected with a password.
 The result messages sometimes spit out the wrong message, but I believe this to be slow communication lag from the contract at times perhaps.
 I may need to look into asynchronous functions perhaps?? Its a work in progress.
+
+
+**Update - 27 October 2020
+I have now completed rewriting the contracts to include oracle data for true random number generation instead of pseudo-randomness as used in phase 1.
+The project aim was to make a coinflip DApp, I have created 3 games (coin flip, dice roll and high card draw) - all of hich use oracle data.
+the high card draw game (Draw Out) uses pseudo-randomness for the house card for hwich the high/low bet will be based upon and then retrieves a random number from the oracle for the user.
+I have linked my front end using event listeners and have the coin flip successfully working.  The dice roll (Roll Out) and high card draw (Draw Out) are still to be finished at this stage.
