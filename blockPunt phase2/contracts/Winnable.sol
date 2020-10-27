@@ -19,7 +19,7 @@ contract Winnable is Ownable, Destroyable, usingProvable, Accountable {
         uint256 queryPrice = bets[query_id].queryPrice;
         contractBalance += betAmount;
         punters[punter].balance -= betAmount;
-
+        
         if (game == 1) {            //game 1 is FlipOut (coinflip)
             uint256 payoutFlip = betAmount * 2;
             if (result == bets[query_id].choice) {          //uint for result and choice will be either 1 for heads or 0 for tails
@@ -38,11 +38,11 @@ contract Winnable is Ownable, Destroyable, usingProvable, Accountable {
                     emit FlipOutResults(punter, query_id, "Tails", "Heads", "House", betAmount, betAmount);
                 }
             }
-            pendingPayouts -= (betAmount * 2);         //amount allocated to pending when initiating FlipOut bet
+            pendingPayouts -= (betAmount + queryPrice);         //amount allocated to pending when initiating FlipOut bet
         }
-
+        
         if (game == 2) {            //game 2 is RollOut (dice roll)
-            uint256 payoutRoll = betAmount * 6;       //payout is 6 times bet as odds are 6 to 1
+            uint256 payoutRoll = betAmount * 6;       //payout is 6 times bet as odds are 6 to 1 
             if (result == bets[query_id].choice) {
                 punters[punter].balance += payoutRoll;
                 contractBalance -= (payoutRoll + queryPrice);      //loser pays for the oracle call
@@ -51,9 +51,9 @@ contract Winnable is Ownable, Destroyable, usingProvable, Accountable {
                 punters[punter].balance -= queryPrice;      //loser pays for the oracle call
                 emit RollOutResults(punter, query_id, result, bets[query_id].choice, "House", betAmount, betAmount);
             }
-            pendingPayouts -= (betAmount * 6);         //amount allocated to pending when initiating RollOut bet
+            pendingPayouts -= ((betAmount * 5) + queryPrice);         //amount allocated to pending when initiating RollOut bet
         }
-
+        
         if (game == 3) {            //game 3 is DrawOut (high card draw)
             require(cards[punter].waiting == true, "Must be waiting");      //waiting will be true if house card has been dealt
             require(cards[punter].cardId > 0, "Must have housecard id");    //cardId is generated in contract and reset to 0 after bet
@@ -131,11 +131,11 @@ contract Winnable is Ownable, Destroyable, usingProvable, Accountable {
                     payoutDraw = betAmount * 11;
                 }
             }
-
+            
             uint256 userCard = result;      //result passed to payout function from callback function in Randomised contract
-
+            
             payoutDraw = payoutDraw / 10;       //payout amount divided by 10 as payout amounts, in payout structure above, are 10x higher to avoid floating point numbers
-
+            
             if ((high == true && userCard > houseCard) || (high == false && userCard < houseCard)) {
                 punters[punter].balance += payoutDraw;
                 contractBalance -= (payoutDraw + queryPrice);      //loser pays for the oracle call
@@ -144,8 +144,8 @@ contract Winnable is Ownable, Destroyable, usingProvable, Accountable {
                 punters[punter].balance -= queryPrice;      //loser pays for the oracle call
                 emit DrawOutResults(punter, query_id, houseCard, userCard, high, betAmount, betAmount, "House");
             }
-            pendingPayouts -= (betAmount * 13);         //amount allocated to pending when initiating DrawOut bet
+            pendingPayouts -= ((betAmount * 12) + queryPrice);         //amount allocated to pending when initiating DrawOut bet
         }
-        punters[punter].pendingBets -= betAmount;
+        punters[punter].pendingBets -= (betAmount + queryPrice);        //amount being locked up for the user at start of bet for any of the games
     }
 }
