@@ -146,6 +146,6 @@ contract Winnable is Ownable, Destroyable, usingProvable, Accountable {
             }
             pendingPayouts -= ((betAmount * 12) + queryPrice);         //amount allocated to pending when initiating DrawOut bet
         }
-        punters[punter].pendingBets -= (betAmount + queryPrice);        //amount being locked up for the user at start of bet for any of the games
+        punters[punter].pendingBets -= (betAmount + queryPrice);
     }
 }
