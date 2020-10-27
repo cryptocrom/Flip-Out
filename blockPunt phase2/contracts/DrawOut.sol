@@ -16,7 +16,7 @@ contract DrawOut is Ownable, Destroyable, usingProvable, Accountable, Winnable, 
         uint256 queryPrice = getQueryPrice();
 
         require(punters[msg.sender].balance - punters[msg.sender].pendingBets >= betAmount + queryPrice, "Not enough liquidity");
-        require(contractBalance - pendingPayouts >= (betAmount * 13) + queryPrice, "Contract cannot cover bet");
+        require(contractBalance - pendingPayouts >= ((betAmount * 12) + queryPrice), "Contract cannot cover bet");
 
         //Instead of deducting from contract and player balances at the start of a bet I have instigated a pending bet amount for the player
         //and a pending payout amount for the contract (which holds the full payout amount applicable for each bet until the bet conclusion)
