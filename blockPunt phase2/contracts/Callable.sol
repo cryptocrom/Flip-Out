@@ -3,14 +3,12 @@ import "./Destroyable.sol";
 import "./provableAPI.sol";
 import "./Accountable.sol";
 import "./Winnable.sol";
-import "./Randomised.sol";
-import "./FlipOut.sol";
-import "./RollOut.sol";
-import "./DrawOut.sol";
+import "./Randomisable.sol";
+import "./Playable.sol";
 
 pragma solidity 0.5.12;
 
-contract Callable is Ownable, Destroyable, usingProvable, Accountable, Winnable, Randomised, FlipOut, RollOut, DrawOut  {
+contract Callable is Ownable, Destroyable, usingProvable, Accountable, Winnable, Randomisable, Playable  {
 
 //Callable contract inherits from all 3 games so that this single contract instance is created that will allow all functionality and interoperability with DApp
 
