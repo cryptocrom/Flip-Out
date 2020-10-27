@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Rules for blockPunt games</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./rules.js"></script>
+    <link rel="stylesheet" href="./pageLayout.css">
+    <link rel="stylesheet" href="./rules_styling.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <style>
+      body {background-color: black;}
+    </style>
+
+      <div>
+        <div class="container">
+          <h1 class="mainHeading" id="main_page_header">blockPunt</h1>
+        </div>
+      </div>
+
+<!-- rules -->
+
+        <div class="container">
+          <h3 class="game_rules_header">How to Begin</h3>
+          <p class-"rules">
+            1. Deposit some funds <br>
+            2. Select the game you would like to play <br>
+            3. Have a punt <br><br>
+            Please note that all bets require oracle data, <br> the cost of the query (approx. 4 finney) will be deducted from the losing party's account
+          </p>
+          <p id="amount_advice">
+            All bet amounts and deposit amounts are in units of finney (0.001 ether) <br>
+          </p>
+          <p class="baseline">
+            You can withdraw your betting funds at any time from the main page. <br><br>
+          </p>
+        </div>
+
+
+        <div class="container">
+          <label><h3 class="game_rules_header">Flip Out</h3></label>
+          <p class="game_rules">
+            A classic coin flip game <br><br>
+          </p>
+          <div>
+            <button type="button" class="rules_page_buttons show_btns" id="show_rules_flipOut">Show Rules</button>
+          </div>
+          <div>
+            <button type="button" class="rules_page_buttons hide_buttons" id="hide_rules_flipOut">Hide Rules</button>
+          </div>
+          <div class="rules_div flipOut_rules">
+            <p class="rules">
+              1. Select how much you want to bet <br>
+              2. Select either heads or tails <br>
+              3. Flip out!!! <br>
+            </p>
+            <p class="baseline">
+              A winning bet will payout <strong class="payout_amount">2 times</strong> the bet amount <br><br>
+            </p>
+          </div>
+        </div>
+
+        <div class="container">
+          <label><h3 class="game_rules_header">Roll Out</h3></label>
+          <p class="game_rules">
+            Guess a number, roll the dice <br><br>
+            <div>
+              <button type="button" class="rules_page_buttons show_btns" id="show_rules_rollOut">Show Rules</button>
+            </div>
+            <div>
+              <button type="button" class="rules_page_buttons hide_buttons" id="hide_rules_rollOut">Hide Rules</button>
+            </div>
+            <div class="rules_div rollOut_rules">
+              <p class="rules">
+                1. Select how much you want to bet <br>
+                2. Select any number between 1 and 6, inclusively <br>
+                3. Roll out!!! <br>
+              </p>
+              <p class="baseline">
+                A winning bet will payout <strong class="payout_amount">6 times</strong> the bet amount <br><br>
+              </p>
+            </div>
+        </div>
+
+        <div class="container">
+          <label><h3 class="game_rules_header">Draw Out</h3></label>
+          <p class="game_rules">
+            High card draw against the house <br><br>
+            <div>
+              <button type="button" class="rules_page_buttons show_btns" id="show_rules_drawOut">Show Rules</button>
+            </div>
+            <div>
+              <button type="button" class="rules_page_buttons hide_buttons" id="hide_rules_drawOut">Hide Rules</button>
+            </div>
+            <div class="rules_div drawOut_rules">
+              <p class="rules">
+                1. Select how much you want to bet <br>
+                2. Dealer draws a card <br>
+                3. Decide if you think you're card will be higher or lower <br>
+                (Ace is low, King is high) <br>
+                4. Draw Out!!! <br>
+              </p>
+              <p class="baseline">
+                <strong class="payout_amount">Winning bets will vary</strong> depending on the dealer card showing, <strong class="payout_amount">see payout table below</strong><br><br>
+              </p>
+              <div class="payout_buttons_div">
+                <button type="button" class="rules_page_buttons" id="show_payout_table">Show Payout Table</button>
+              </div>
+
+              <div class="payout_buttons_div">
+                <button type="button" class="rules_page_buttons" id="hide_payout_table">Hide Payout Table</button>
+              </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+          <div class="draw_out_payout_table_div">
+            <caption><strong id="payout_header">Draw Out Payout table</strong></caption>
+            <table id="draw_out_payout_table">
+              <tr>
+                  <th>Payout for Lower</th>
+                  <th class="table_mid_col">Dealer Card</th>
+                  <th>Payout for Higher</th>
+              </tr>
+              <tr class="table_start-finish_row">
+                  <td class="table_bet_returned">Bet returned</td>
+                  <td class="table_mid_col">Ace</td>
+                  <td class="table_bet_returned">Bet returned</td>
+              </tr>
+              <tr>
+                  <td>x13</td>
+                  <td class="table_mid_col">2</td>
+                  <td>x1.1</td>
+              </tr>
+              <tr>
+                  <td>x6.5</td>
+                  <td class="table_mid_col">3</td>
+                  <td>x1.3</td>
+              </tr>
+              <tr>
+                  <td>x4.2</td>
+                  <td class="table_mid_col">4</td>
+                  <td>x1.4</td>
+              </tr>
+              <tr>
+                  <td>x3.2</td>
+                  <td class="table_mid_col">5</td>
+                  <td>x1.6</td>
+              </tr>
+              <tr>
+                  <td>x2.6</td>
+                  <td class="table_mid_col">6</td>
+                  <td>x1.8</td>
+              </tr>
+              <tr class="table_mid_row">
+                  <td>x2.1</td>
+                  <td class="table_mid_col">7</td>
+                  <td>x2.1</td>
+              </tr>
+              <tr>
+                  <td>x1.8</td>
+                  <td class="table_mid_col">8</td>
+                  <td>x2.6</td>
+              </tr>
+              <tr>
+                  <td>x1.6</td>
+                  <td class="table_mid_col">9</td>
+                  <td>x3.2</td>
+              </tr>
+              <tr>
+                  <td>x1.4</td>
+                  <td class="table_mid_col">10</td>
+                  <td>x4.2</td>
+              </tr>
+              <tr>
+                  <td>x1.3</td>
+                  <td class="table_mid_col">Jack</td>
+                  <td>x6.5</td>
+              </tr>
+              <tr>
+                  <td>x1.1</td>
+                  <td class="table_mid_col">Queen</td>
+                  <td>x13</td>
+              </tr>
+              <tr class="table_start-finish_row">
+                  <td class="table_bet_returned">Bet returned</td>
+                  <td class="table_mid_col">King</td>
+                  <td class="table_bet_returned">Bet returned</td>
+              </tr>
+            </table>
+            <p>
+              <br>
+              If the dealer draws an Ace or a King, you're bet will be returned <br>
+              You can only bet higher or lower, a draw will result in a losing bet, regardless of your choice <br>
+              <br>
+            </p>
+          </div>
+        </div>
+
+
+        <div class="container">
+          <h2 id="good_luck">Good Luck!!!</h2>
+        </div>
+
+
+    <!-- Games Buttons-->
+
+        <div class="directions">
+          <span>Try a different game or head back to the main page:</span>
+        </div>
+
+        <div class="grid-container">
+
+            <div class="container games">
+            </div>
+
+            <div class="container games">
+              <button type="button" id="back_to_main_button" class="game_buttons">Back to Main Page</button>
+            </div>
+
+            <div class="container games">
+            </div>
+
+
+            <div class="container games">
+              <button type="button" id="flip_out_btn" class="game_buttons">Flip Out</button>
+            </div>
+
+            <div class="container games">
+              <button type="button" id="roll_out_btn" class="game_buttons">Roll Out</button>
+            </div>
+
+            <div class="container games">
+              <button type="button" id="draw_out_btn" class="game_buttons">Draw Out</button>
+            </div>
+
+
+
+
+        </div>
+
+
+
+  </body>
+</html>

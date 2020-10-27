@@ -1,0 +1,357 @@
+.main_header_div {
+  border-radius: 8px;
+  background-color: #00FF00;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.mainHeading {
+  font-size: 80px;
+  color: black;
+  padding-top: 25px;
+  text-align: center;
+}
+
+#main_page_only {
+  padding-bottom: 25px;
+}
+
+.subHeading {
+  color: black;
+  text-align: right;
+  font-size: 24px;
+  font-style: italic;
+  margin-top: -10px;
+}
+
+.top_section {
+  border-bottom: 1px solid rgb(46, 139, 87, 0.3);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  height: 225px;
+}
+
+
+.subHeading2 {
+  color: white;
+  text-align: center;
+  font-size: 36px;
+  font-style: bold;
+  background-color: black;
+  margin-top: -10px;
+  margin-bottom: 25px;
+}
+
+.grid-container {
+  margin-left: 100px;
+  margin-right: 100px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.output-info-grid {
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  display: grid;
+  grid-gap: 3px;
+  padding: 3px;
+}
+
+.container {
+  padding-bottom: 5px;
+}
+
+.all_buttons {
+  border-radius: 5px;
+}
+
+.direction_labels {
+  color: white;
+  font-size: 20px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.direction_info {
+  color: white;
+  background-color: black;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.directions {
+  color: white;
+  text-align: center;
+  font-size: 24px;
+  margin-top: 50px;
+}
+
+
+.deposit_directions {
+  color: white;
+  background-color: black;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 25px;
+}
+
+.output_labels {
+  color: #00FF00;
+  font-size: 20px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.output_info {
+  color: white;
+  background-color: black;
+  border-bottom: 2px solid orange;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  height: 30px;
+}
+
+.input_boxes {
+  border-radius: 5px;
+}
+
+
+
+/* User and House Info - under header */
+
+.main_top {
+  text-align: center;
+  margin-top: -20px;
+}
+
+.owner {
+  color: #00FF00;
+}
+
+.user {
+  color: orange;
+}
+
+.address_labels {
+  font-size: 16px;
+}
+
+.addresses {
+  color: white;
+  font-size: 10px;
+}
+
+.balance_labels {
+  font-size: 20px;
+}
+
+.balances {
+  color: white;
+  font-size: 26px;
+  margin-top: -5px;
+}
+
+
+.rules_btn {
+  text-align: center;
+}
+
+#goto_rules_page_button {
+  width: 350px;
+  height: 100px;
+  color: lightseagreen;
+  background-color: black;
+  border: 1px solid lightseagreen;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#goto_rules_page_button:hover {
+  color: black;
+  border: 1px solid lightseagreen;
+  background-color: lightseagreen;
+}
+
+#update_button {
+  font-size: 14px;
+  margin-top: 15px;
+  height: 40px;
+  width: 160px;
+  color: rgb(255, 165, 0, 0.8);
+  background-color: black;
+  border: 1px solid rgb(255, 165, 0, 0.8);
+}
+
+#update_button:hover {
+  color: black;
+  background-color: rgb(255, 165, 0, 0.8);
+  border: 1px solid rgb(255, 165, 0, 0.8);
+}
+
+#owner_page_button {
+  font-size: 14px;
+  margin-top: 15px;
+  height: 40px;
+  width: 160px;
+  color: rgb(0, 200, 0, 0.8);
+  background-color: black;
+  border: 1px solid rgb(0, 200, 0, 0.8);
+}
+
+#owner_page_button:hover {
+  color: black;
+  background-color: rgb(0, 200, 0, 0.8);
+  border: 1px solid rgb(0, 200, 0, 0.8);
+}
+
+
+
+
+/* User Deposit/Withdrawal */
+
+.user_deposit_funds {
+  text-align: center;
+}
+
+input[type=number] {
+  text-align: center;
+}
+
+#deposit_amount {
+  margin-top: 25px;
+  font-size: 15px;
+  background-color: black;
+  color: #00FF00;
+  font-weight: bold;
+  border: 2px solid #00FF00;
+  padding-left: 8px;
+  height: 50px;
+  width: 200px;
+}
+
+#deposit_amount::placeholder {
+  color: #00FF00;
+  padding-left: 5px;
+}
+
+#deposit_amount:focus {
+  background-color: #00FF00;
+  color: black;
+}
+
+#deposit_button {
+  margin-top: 10px;
+  font-weight: bold;
+  height: 50px;
+  width: 200px;
+  border: 2px solid orange;
+}
+
+#withdraw_betting_funds_button {
+  color: red;
+  border: 2px solid red;
+  font-size: 15px;
+  font-weight: bold;
+  height: 50px;
+  width: 200px;
+  margin-top: 10px;
+}
+
+#withdraw_betting_funds_button:hover {
+  color: black;
+  background-color: red;
+}
+
+
+
+
+/* Game buttons - bottom of page */
+
+.game_buttons {
+  height: 100px;
+  width: 250px;
+  font-size: 24px;
+  color: lightseagreen;
+  background-color: black;
+  border: 2px solid lightseagreen;
+  border-radius: 5px;
+}
+
+.game_buttons:hover{
+  color: black;
+  background-color: lightseagreen;
+  border: 2px solid lightseagreen;
+}
+
+.game_buttons:focus{
+  color: orange;
+  outline-color: orange;
+  border: 2px solid orange;
+}
+
+.games {
+  text-align: center;
+}
+
+
+
+
+/* Owner Page Button */
+
+.owner_page_line {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(46, 139, 87, 0.3);
+  margin-bottom: -20px;
+}
+
+.owner_page_bottom_section {
+  margin-top: 50px;
+}
+
+#owner_password {
+  text-align: center;
+  height: 30px;
+  width: 160px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+}
+
+#owner_password::placeholder {
+  text-align: center;
+}
+
+#submit_password {
+  height: 30px;
+  width: 80px;
+  color: rgb(0, 200, 0, 0.8);
+  background-color: black;
+  border: 1px solid rgb(0, 200, 0, 0.8);
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+#cancel_password {
+  height: 30px;
+  width: 80px;
+  color: rgb(255, 0, 0, 0.7);
+  background-color: black;
+  border: 1px solid rgb(255, 0, 0, 0.7);
+  border-radius: 5px;
+  margin-top: 10px;
+}

@@ -1,0 +1,104 @@
+.mainHeading {
+  font-size: 125px;
+  color: black;
+  background-color: #00FF00;
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.container{
+  color: white;
+  text-align: center;
+}
+
+.game_rules_header {
+  color:  orange;
+}
+
+.game_rules {
+  color: white;
+}
+
+.baseline {
+  color: #00FF00;
+  font-size: 18px;
+}
+
+.payout_amount {
+  color: yellow;
+  border-bottom: 1px solid;
+  font-size: 19px;
+}
+
+#amount_advice {
+  color: orange;
+  font-size: 20px;
+}
+
+#good_luck {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  color: yellow;
+  text-align: center;
+}
+
+#payout_header {
+  color: #00FF00;
+  font-size: 22px;
+}
+
+.draw_out_payout_table_div {
+  text-align: center;
+}
+
+#draw_out_payout_table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  width: 650px;
+}
+
+table, th, td {
+  border: 1px solid rgb(46, 139, 87, 0.4);
+  border-collapse: collapse;
+}
+
+th {
+  color: white;
+  background-color: rgb(255, 255, 255, 0.1);
+  font-size: 17px;
+}
+
+.table_mid_col {
+  color: yellow;
+}
+
+.table_mid_row {
+  background-color:  rgb(0, 200, 0, 0.2);
+}
+
+.table_start-finish_row {
+  background-color:  rgb(255, 165, 0, 0.2);
+}
+
+.table_bet_returned {
+  color: rgb(255, 165, 0, 1);
+}
+
+.payout_buttons_div {
+  text-align: center;
+}
+
+.rules_page_buttons {
+  height: 50px;
+  width: 150px;
+  padding: 8px;
+  color: rgb(0, 200, 0, 0.8);
+  background-color: black;
+  border: 1px solid rgb(0, 200, 0, 0.8);
+  border-radius: 5px;
+  margin-bottom: 50px;
+}

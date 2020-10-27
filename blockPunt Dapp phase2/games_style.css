@@ -1,0 +1,120 @@
+
+.game_section {
+  height: 500px;
+}
+
+.centred_direction {
+  color: white;
+  background-color: black;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  width: 300px;
+  height: 30px;
+  margin-bottom: 15px;
+}
+
+.bet_amount_section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#bet_amount {
+  background-color: black;
+  color: #00FF00;
+  font-weight: bold;
+  width: 175px;
+  height: 40px;
+  border-radius: 4px;
+  border: 2px solid #00FF00;
+  padding-left: 8px;
+  margin-top: 15px;
+  padding-bottom: 5px;
+  margin-right: 20px
+}
+
+#bet_amount::placeholder {
+  color: #00FF00;
+}
+
+#bet_amount:focus {
+  background-color: #00FF00;
+  color: black;
+}
+
+#place_bet_button {
+  font-weight: bold;
+  text-align: center;
+  width: 175px;
+  height: 40px;
+  border: 2px solid orange;
+  border-radius: 4px;
+  margin-top: -1px;
+}
+
+.bet_amount_label {
+  color: yellow;
+  margin-right: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.show_bet_amount {
+  color: white;
+  font-size: 24px;
+  padding-bottom: 3px;
+  margin-left: 20px;
+  border-bottom: 2px solid black;
+}
+
+#cancel_button {
+  font-weight: bold;
+  font-size: 16px;
+  color: red;
+  background-color: black;
+  border: 1px solid red;
+  height: 50px;
+  width: 200px;
+  margin-top: 15px;
+}
+
+#cancel_button:hover {
+  color: black;
+  background-color: red;
+  border: 1px solid red;
+}
+
+.action_btns {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.message {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.win_lose {
+  padding: 30px;
+  border-radius: 5px;
+  color: orange;
+  font-size: 22px;
+  border: 2px solid yellow;
+  width: 380px;
+  margin-left: 365px;
+}
+
+.gif_box {
+  text-align: center;
+}
+
+.choice_btns {
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+
+#Commandments_Img {
+  max-height: 565px;
+  margin-top: -25px;
+}
