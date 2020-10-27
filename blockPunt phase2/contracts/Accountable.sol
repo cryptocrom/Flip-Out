@@ -93,7 +93,7 @@ contract Accountable is Ownable, Destroyable, usingProvable {
 
     function withdrawBettingFunds() public {
         require(punters[msg.sender].balance > 0, "Cannot withdraw 0");
-        uint toTransfer = punters[msg.sender].balance;
+        uint toTransfer = punters[msg.sender].balance - punters[msg.sender].pendingBets;
         punters[msg.sender].balance = 0;
         msg.sender.transfer(toTransfer);
         emit PlayerFundsWithdrawn(msg.sender, toTransfer);
@@ -101,7 +101,7 @@ contract Accountable is Ownable, Destroyable, usingProvable {
 
 
     function withdrawContractBalance() public onlyOwner {
-        uint toTransfer = contractBalance;
+        uint toTransfer = contractBalance - pendingPayouts;
         contractBalance = 0;
         msg.sender.transfer(toTransfer);
         emit ContractBalanceWithdrawn(owner, toTransfer);
